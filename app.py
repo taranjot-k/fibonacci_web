@@ -2,6 +2,7 @@
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 import json
+import os
 from urllib.parse import urlsplit
 
 from FIBB import fibonacci_iterative, fibonacci_recursive_series
@@ -51,8 +52,9 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(payload)
 
 if __name__ == '__main__':
-    server = ThreadingHTTPServer(('127.0.0.1', 8765), Handler)
-    print('Open http://127.0.0.1:8756 in your browser')
+    port = int(os.environ.get('PORT', 8000))
+    server = ThreadingHTTPServer(('0.0.0.0', port), Handler)
+    print(f'Server running on http://0.0.0.0:{port}')
     try:
         server.serve_forever()
     except KeyboardInterrupt:
